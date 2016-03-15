@@ -1,0 +1,2100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+///////////////////////////////////////////////////////////////////////////////
+//  (c) Copyright 2014 Sepura plc.
+//! \file          map27dict.xml
+//! \brief         Data Dictionary of MAP27 and TAP layouts 
+//!
+///////////////////////////////////////////////////////////////////////////////
+
+-->
+
+<DataDictionary>
+  <Contents>
+    <Information>
+      <Version>$Revision: #5 $</Version>
+    </Information>
+
+    <Signals>
+      <Name>MAP27 Frames</Name>
+
+      <Signal>
+        <Name>LR</Name>
+        <Value>1</Value>
+        <Type>Link Request Frame</Type>
+      </Signal>
+      <Signal>
+        <Name>LA</Name>
+        <Value>2</Value>
+        <Type>Link Ack Frame</Type>
+      </Signal>
+      <Signal>
+        <Name>LT</Name>
+        <Value>4</Value>
+        <Type>Link Transfer Frame</Type>
+      </Signal>
+    </Signals>
+
+    <Types>
+
+      <!-- special null type -->
+      <BaseType>
+        <ByteSize>0</ByteSize>
+        <Name>none</Name>
+      </BaseType>
+
+      <BaseType>
+        <Name>tLong</Name>
+        <ByteSize>4</ByteSize>
+      </BaseType>
+
+      <BaseType>
+        <Name>tWord</Name>
+        <ByteSize>2</ByteSize>
+      </BaseType>
+
+      <BaseType>
+        <Name>tByte</Name>
+        <ByteSize>1</ByteSize>
+      </BaseType>
+
+      <Struct>
+        <Name>Link Request Frame</Name>
+        <Attribute>
+          <Name>LR</Name>
+          <Type>struct LinkRequestHeader</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>LinkRequestHeader</Name>
+        <Attribute>
+          <Name>Type</Name>
+          <Type>enum Map27FrameType</Type>
+        </Attribute>
+        <Attribute>
+          <Name>N1</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>k</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>V</Name>
+          <Type>tByte</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>Link Ack Frame</Name>
+        <Attribute>
+          <Name>LA</Name>
+          <Type>struct LinkAckHeader</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>LinkAckHeader</Name>
+        <Attribute>
+          <Name>Type</Name>
+          <Type>enum Map27FrameType</Type>
+        </Attribute>
+        <Attribute>
+          <Name>N(R)</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>N(k)</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Res</Name>
+          <Type>tByte</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>Link Transfer Frame</Name>
+        <Attribute>
+          <Name>LT</Name>
+          <Type>struct LinkTransferHeader</Type>
+        </Attribute>
+        <Attribute>
+          <Name>TAP</Name>
+          <Type>struct TAPFrame</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>LinkTransferHeader</Name>
+        <Attribute>
+          <Name>Type</Name>
+          <Type>enum Map27FrameType</Type>
+        </Attribute>
+        <Attribute>
+          <Name>N(S)</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>AR</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Res</Name>
+          <Type>tByte</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>TAPFrame</Name>
+        <Attribute>
+          <Name>Type</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Command</Name>
+          <Type>enum TAPCommandID</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Block</Name>
+          <Type>tWord</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Count</Name>
+          <Type>tWord</Type>
+        </Attribute>
+
+        <Attribute>
+          <Name>Data</Name>
+          <Discriminator>Command</Discriminator>
+          <Switch>
+            <Name>CommandSwitch</Name>
+            <Use>enum TAPCommandID</Use>
+            <Case>
+              <Value>Response</Value>
+              <Name>Response</Name>
+              <Type>struct TapResponse</Type>
+            </Case>
+            <Case>
+              <Value>Read Alignment Parameters</Value>
+              <Name>Read Alignment Parameters</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Set Gen3 Tx Power Level</Value>
+              <Name>Set Gen3 Tx Power Level</Name>
+              <Type>struct SetGen3TxPowerLevel</Type>
+            </Case>
+            <Case>
+              <Value>Save Alignment Data</Value>
+              <Name>Save Alignment Data</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Set Rx Tuning Voltage</Value>
+              <Name>Set Rx Tuning Voltage</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Set TCXO Frequency</Value>
+              <Name>Set TCXO Frequency</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Set Gen3 Tx Baseband Drive</Value>
+              <Name>Set Gen3 Tx Baseband Drive</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Set Gen3 Tx I/Q RRC Filter Block Coeff</Value>
+              <Name>Set Gen3 Tx I/Q RRC Filter Block Coeff</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Calibrate TETRA Tx Power</Value>
+              <Name>Calibrate TETRA Tx Power</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Set Tx Calibration Frequency Table</Value>
+              <Name>Set Tx Calibration Frequency Table</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Set Rx Calibration Frequency Table</Value>
+              <Name>Set Rx Calibration Frequency Table</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Set Tx Calibration Frequency</Value>
+              <Name>Set Tx Calibration Frequency</Name>
+              <Type>struct SetTxCalibrationFrequency</Type>
+            </Case>
+            <Case>
+              <Value>Select Transmitter Band</Value>
+              <Name>Select Transmitter Band</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Read RX Mean Magnitude</Value>
+              <Name>Read RX Mean Magnitude</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Read Alignment Language ID</Value>
+              <Name>Read Alignment Language ID</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Read ALGIDs</Value>
+              <Name>Read ALGIDs</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Set RF ABC Coefficients</Value>
+              <Name>Set RF ABC Coefficients</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Set Feature Licences Not Required</Value>
+              <Name>Set Feature Licences Not Required</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Set Product Variant Code</Value>
+              <Name>Set Product Variant Code</Name>
+              <Type>struct SetProductVariantCode</Type>
+            </Case>
+            <Case>
+              <Value>Test Bluetooth Module</Value>
+              <Name>Test Bluetooth Module</Name>
+              <Type>struct TestBluetoothModule</Type>
+            </Case>
+            <Case>
+              <Value>Reboot</Value>
+              <Name>Reboot</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Read Connected Items</Value>
+              <Name>Read Connected Items</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Read ADC</Value>
+              <Name>Read ADC</Name>
+              <Type>struct ReadAdc</Type>
+            </Case>
+            <Case>
+              <Value>Set Volume Level</Value>
+              <Name>Set Volume Level</Name>
+              <Type>struct SetVolumeLevelRequest</Type>
+            </Case>
+            <Case>
+              <Value>Enable Tx</Value>
+              <Name>Enable Tx</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Disable Tx</Value>
+              <Name>Disable Tx</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Set Tx Test Modulation</Value>
+              <Name>Set Tx Test Modulation</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Enable Functional Block</Value>
+              <Name>Enable Functional Block</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Enter Engineering Mode</Value>
+              <Name>Enter Engineering Mode</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Read Operating Mode</Value>
+              <Name>Read Operating Mode</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Read Tamper Switch State</Value>
+              <Name>Read Tamper Switch State</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Test Encryption Device</Value>
+              <Name>Test Encryption Device</Name>
+              <Type>struct TestEncryptionDevice</Type>
+            </Case>
+            <Case>
+              <Value>Set Baseband Audio Loop</Value>
+              <Name>Set Baseband Audio Loop</Name>
+              <Type>struct SetBasebandAudioLoop</Type>
+            </Case>
+            <Case>
+              <Value>Prepare for Flash Download</Value>
+              <Name>Prepare for Flash Download</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Write Customisation Data</Value>
+              <Name>Write Customisation Data</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Read Customisation Data</Value>
+              <Name>Read Customisation Data</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Write Parameter</Value>
+              <Name>Write Parameter</Name>
+              <Type>struct WriteParameter</Type>
+            </Case>
+            <Case>
+              <Value>Read Parameter</Value>
+              <Name>Read Parameter</Name>
+              <Type>struct ReadParameter</Type>
+            </Case>
+            <Case>
+              <Value>Prepare for Key Programming</Value>
+              <Name>Prepare for Key Programming</Name>
+              <Type>struct PrepareKeyProgramming</Type>
+            </Case>
+            <Case>
+              <Value>Write Language Block</Value>
+              <Name>Write Language Block</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Read Language Block Language ID</Value>
+              <Name>Read Language Block Language ID</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Set Programming Session Progress</Value>
+              <Name>Set Programming Session Progress</Name>
+              <Type>struct SetProgrammingSessionProgress</Type>
+            </Case>
+            <Case>
+              <Value>Read Post Mortem</Value>
+              <Name>Read Post Mortem</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Switch Serial Protocol to Hayes</Value>
+              <Name>Switch Serial Protocol to Hayes</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Check Space for Main Code</Value>
+              <Name>Check Space for Main Code</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Deliver KMM</Value>
+              <Name>Deliver KMM</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Read Public Key ID</Value>
+              <Name>Read Public Key ID</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Write Control Software Extended</Value>
+              <Name>Write Control Software Extended</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Write Public Key</Value>
+              <Name>Write Public Key</Name>
+              <Type>struct WritePublicKey</Type>
+            </Case>
+            <Case>
+              <Value>Write Enc Alg Signed</Value>
+              <Name>Write Enc Alg Signed</Name>
+              <Type>struct WriteEncAlgSignedRequest</Type>
+            </Case>
+            <Case>
+              <Value>Link Endpoint Authentication</Value>
+              <Name>Link Endpoint Authentication</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Read Embedded Device Identity Information</Value>
+              <Name>Read Embedded Device Identity Information</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Write Licence File</Value>
+              <Name>Write Licence File</Name>
+              <Type>struct WriteLicenceFileRequest</Type>
+            </Case>
+
+            <Case>
+              <Value>Read Licence File</Value>
+              <Name>Read Licence File</Name>
+              <Type>struct ReadLicenceFileRequest</Type>
+            </Case>
+            <Case>
+              <Value>Read Licence File Status</Value>
+              <Name>Read Licence File Status</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Write Parameter Signed</Value>
+              <Name>Write Parameter Signed</Name>
+              <Type>struct WriteParameterSignedRequest_0</Type>
+            </Case>
+
+            <Case>
+              <Value>Write File</Value>
+              <Name>Write File</Name>
+              <Type>struct WriteFileCommand</Type>
+            </Case>
+            <Case>
+              <Value>Read File</Value>
+              <Name>Read File</Name>
+              <Type>struct ReadFileRequest</Type>
+            </Case>
+            <Case>
+              <Value>Read Directory</Value>
+              <Name>Read Directory</Name>
+              <Type>struct ReadDirectoryRequest</Type>
+            </Case>
+            <Case>
+              <Value>Read Parameter Index</Value>
+              <Name>Read Parameter Index</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Stat</Value>
+              <Name>Stat</Name>
+              <Type>struct StatRequest</Type>
+            </Case>
+            <Case>
+              <Value>Format Filesystem</Value>
+              <Name>Format Filesystem</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>GPS Raw Data Mode</Value>
+              <Name>GPS Raw Data Mode</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>GPS Raw Data In</Value>
+              <Name>GPS Raw Data In</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>GPS Raw Data Out</Value>
+              <Name>GPS Raw Data Out</Name>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>Audio Alert Tone</Value>
+              <Name>Audio Alert Tone</Name>
+              <Type>struct AudioAlertToneRequest</Type>
+            </Case>
+            <Case>
+              <Value>WiFi Scan Access Point</Value>
+              <Name>WiFi Scan Access Point</Name>
+              <Type>none</Type>
+            </Case>
+          </Switch>
+        </Attribute>
+
+      </Struct>
+
+
+      <Struct>
+        <Name>OperatingModeResponse</Name>
+        <Attribute>
+          <Name>Result</Name>
+          <Type>enum TAPResponseID</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Value</Name>
+          <Discriminator>Result</Discriminator>
+          <Switch>
+            <Name>ResponseSwitch</Name>
+            <Use>enum TAPResponseID</Use>
+            <Case>
+              <Value>OK</Value>
+              <Name>OP Mode Value</Name>
+              <Type>enum OperatingMode</Type>
+            </Case>
+          </Switch>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>TestEncryptionDeviceResult</Name>
+        <Attribute>
+          <Name>Test Number</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Enc Dev Type</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Algorithms Programmed</Name>
+          <Type>tWord</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Lock/Bank</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Keystream Result</Name>
+          <Type>tByte</Type>
+        </Attribute>
+      </Struct>
+
+
+      <Struct>
+        <Name>TestEncryptionDeviceResponse</Name>
+        <Attribute>
+          <Name>Result</Name>
+          <Type>enum TAPResponseID</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Value</Name>
+          <Discriminator>Result</Discriminator>
+          <Switch>
+            <Name>ResultSwitch</Name>
+            <Use>enum TAPResponseID</Use>
+            <Case>
+              <Value>0</Value>
+              <Name>Test Result</Name>
+              <Type>struct TestEncryptionDeviceResult</Type>
+            </Case>
+            <Case>
+              <Value>1</Value>
+              <Name>Test Result</Name>
+              <Type>struct TestEncryptionDeviceResult</Type>
+            </Case>
+          </Switch>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>TapResponse</Name>
+        <Attribute>
+          <Name>Command</Name>
+          <Type>enum TAPCommandID</Type>
+        </Attribute>
+        <Attribute>
+          <Name>ResponseData</Name>
+          <Discriminator>Command</Discriminator>
+          <Switch>
+            <Name>ResponseIdSwitch</Name>
+            <Use>enum TAPCommandID</Use>
+            <Case>
+              <Value>Read Alignment Parameters</Value>
+              <Name>Read Alignment Parameters</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Set Rx Tuning Voltage</Value>
+              <Name>Set Rx Tuning Voltage</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Set TCXO Frequency</Value>
+              <Name>Set TCXO Frequency</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Set Gen3 Tx Baseband Drive</Value>
+              <Name>Set Gen3 Tx Baseband Drive</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Set Gen3 Tx I/Q RRC Filter Block Coeff</Value>
+              <Name>Set Gen3 Tx I/Q RRC Filter Block Coeff</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Calibrate TETRA Tx Power</Value>
+              <Name>Calibrate TETRA Tx Power</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Set Gen3 Tx Power Level</Value>
+              <Name>Set Gen3 Tx Power Level</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Save Alignment Data</Value>
+              <Name>Save Alignment Data</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Read Operating Mode</Value>
+              <Name>OP Mode</Name>
+              <Type>struct OperatingModeResponse</Type>
+            </Case>
+            <Case>
+              <Value>Read Tamper Switch State</Value>
+              <Name>Read Tamper Switch State</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Test Encryption Device</Value>
+              <Name>Test Encryption Device</Name>
+              <Type>struct TestEncryptionDeviceResponse</Type>
+            </Case>
+            <Case>
+              <Value>Read Parameter</Value>
+              <Name>Read Parameter</Name>
+              <Type>struct ReadParameterResponse</Type>
+            </Case>
+            <Case>
+              <Value>Prepare for Key Programming</Value>
+              <Name>Prepare for Key Programming</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Write Parameter</Value>
+              <Name>Write Parameter</Name>
+              <Type>struct WriteParameterResponse</Type>
+            </Case>
+            <Case>
+              <Value>Read ADC</Value>
+              <Name>Read ADC</Name>
+              <Type>struct ReadAdcResponse</Type>
+            </Case>
+            <Case>
+              <Value>Read Connected Items</Value>
+              <Name>Read ADCRead Connected Items</Name>
+              <Type>struct ReadConnectedItemsResponse</Type>
+            </Case>
+            <Case>
+              <Value>Check Space for Main Code</Value>
+              <Name>Check Space for Main Code</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Deliver KMM</Value>
+              <Name>Deliver KMM</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Enter Engineering Mode</Value>
+              <Name>Enter Engineering Mode</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Prepare for Flash Download</Value>
+              <Name>Prepare for Flash Download</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Write Customisation Data</Value>
+              <Name>Write Customisation Data</Name>
+              <Type>struct WriteCustResponse</Type>
+            </Case>
+
+            <Case>
+              <Value>Read Customisation Data</Value>
+              <Name>Read Customisation Data</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Read Public Key ID</Value>
+              <Name>Read Public Key ID</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Enter Engineering Mode</Value>
+              <Name>Enter Engineering Mode</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Set Programming Session Progress</Value>
+              <Name>Set Programming Session Progress</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Read Post Mortem</Value>
+              <Name>Read Post Mortem</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Switch Serial Protocol to Hayes</Value>
+              <Name>Switch Serial Protocol to Hayes</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Set Baseband Audio Loop</Value>
+              <Name>Set Baseband Audio Loop</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Write Control Software Extended</Value>
+              <Name>Write Control Software Extended</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Write Public Key</Value>
+              <Name>Write Public Key</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Write Enc Alg Signed</Value>
+              <Name>Write Enc Alg Signed</Name>
+              <Type>struct WriteEncAlgSignedResponse</Type>
+            </Case>
+
+            <Case>
+              <Value>Link Endpoint Authentication</Value>
+              <Name>Link Endpoint Authentication</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Read Embedded Device Identity Information</Value>
+              <Name>Read Embedded Device Identity Information</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Read Parameter Index</Value>
+              <Name>Read Parameter Index</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Read Licence File</Value>
+              <Name>Read Licence File</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Write Licence File</Value>
+              <Name>Write Licence File</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Read Licence File Status</Value>
+              <Name>Read Licence File Status</Name>
+              <Type>struct ReadLicenceFileStatusResponse</Type>
+            </Case>
+
+            <Case>
+              <Value>Write Parameter Signed</Value>
+              <Name>Write Parameter Signed</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Write File</Value>
+              <Name>Write File</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Read File</Value>
+              <Name>Read File</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Read Directory</Value>
+              <Name>Read Directory</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Stat</Value>
+              <Name>Stat</Name>
+              <Type>struct StatResponse</Type>
+            </Case>
+
+            <Case>
+              <Value>Format Filesystem</Value>
+              <Name>Format Filesystem</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>GPS Raw Data Mode</Value>
+              <Name>GPS Raw Data Mode</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>GPS Raw Data In</Value>
+              <Name>GPS Raw Data In</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>GPS Raw Data Out</Value>
+              <Name>GPS Raw Data Out</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Read ALGIDs</Value>
+              <Name>Read ALGIDs</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Set Feature Licences Not Required</Value>
+              <Name>Set Feature Licences Not Required</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Set Volume Level</Value>
+              <Name>Set Volume Level</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Enable Tx</Value>
+              <Name>Enable Tx</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Disable Tx</Value>
+              <Name>Disable Tx</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Set Tx Test Modulation</Value>
+              <Name>Set Tx Test Modulation</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+            <Case>
+              <Value>Enable Functional Block</Value>
+              <Name>Enable Functional Block</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Audio Alert Tone</Value>
+              <Name>Audio Alert Tone</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Write Language Block</Value>
+              <Name>Write Language Block</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Read Language Block Language ID</Value>
+              <Name>Read Language Block Language ID</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Read RX Mean Magnitude</Value>
+              <Name>Read RX Mean Magnitude</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Read Alignment Language ID</Value>
+              <Name>Read Alignment Language ID</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Set Tx Calibration Frequency</Value>
+              <Name>Set Tx Calibration Frequency</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Set Product Variant Code</Value>
+              <Name>Set Product Variant Code</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+            <Case>
+              <Value>Test Bluetooth Module</Value>
+              <Name>Test Bluetooth Module</Name>
+              <Type>enum TAPResponseID</Type>
+            </Case>
+
+          </Switch>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>ReadAdc</Name>
+        <Attribute>
+          <Name>Function</Name>
+          <Type>tByte</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>ReadAdcResponse</Name>
+        <Attribute>
+          <Name>Result</Name>
+          <Type>enum TAPResponseID</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Function</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Reading</Name>
+          <Type>tByte</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>ReadConnectedItemsResponse</Name>
+        <Attribute>
+          <Name>Result</Name>
+          <Type>enum TAPResponseID</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Connected Items</Name>
+          <Type>tByte</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>TestEncryptionDevice</Name>
+        <Attribute>
+          <Name>Test Number</Name>
+          <Type>tByte</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>TestEncryptionDeviceResponse</Name>
+        <Attribute>
+          <Name>Test Number</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Device Type</Name>
+          <Type>enum EncryptionDeviceType</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Algorithms 1-4</Name>
+          <Type>tWord</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Lock status/Bank In Use</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Keystream validation result</Name>
+          <Type>enum KeystreamValidationResult</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>SetBasebandAudioLoop</Name>
+        <Attribute>
+          <Name>Audio Control 1</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Audio Control 2</Name>
+          <Type>tByte</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>WriteParameter</Name>
+        <Attribute>
+          <Name>ParamNum</Name>
+          <Type>tWord</Type>
+        </Attribute>
+      </Struct>
+
+
+      <Struct>
+        <Name>WriteParameterResponse</Name>
+        <Attribute>
+          <Name>Result</Name>
+          <Type>enum TAPResponseID</Type>
+        </Attribute>
+
+        <Attribute>
+          <Name>Error</Name>
+          <Discriminator>Result</Discriminator>
+          <Switch>
+            <Name>WriteParamResponse - error</Name>
+            <Use>enum TAPResponseID</Use>
+            <Case>
+              <Value>0</Value>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>1</Value>
+              <Enum>
+                <Name>Error Value</Name>
+                <ByteSize>1</ByteSize>
+                <Literal>
+                  <Name>Read/erase failure</Name>
+                  <Value>0</Value>
+                </Literal>
+                <Literal>
+                  <Name>Write failure</Name>
+                  <Value>1</Value>
+                </Literal>
+                <Literal>
+                  <Name>Transfer error</Name>
+                  <Value>2</Value>
+                </Literal>
+              </Enum>
+            </Case>
+          </Switch>
+        </Attribute>
+
+      </Struct>
+
+      <Struct>
+        <Name>ReadLicenceFileStatusResponse</Name>
+        <Attribute>
+          <Name>Result</Name>
+          <Type>enum TAPResponseID</Type>
+        </Attribute>
+        <Attribute>
+          <Name>FeatureFiles</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>DeltaFiles</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>SecurityFiles</Name>
+          <Type>tByte</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>WriteCustResponse</Name>
+        <Attribute>
+          <Name>Result</Name>
+          <Type>enum TAPResponseID</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Error</Name>
+          <Discriminator>Result</Discriminator>
+          <Switch>
+            <Name>WriteCustResponse - error</Name>
+            <Use>enum TAPResponseID</Use>
+            <Case>
+              <Value>0</Value>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>1</Value>
+              <Enum>
+                <Name>Error Value</Name>
+                <ByteSize>1</ByteSize>
+                <Literal>
+                  <Name>Read/erase failure</Name>
+                  <Value>0</Value>
+                </Literal>
+                <Literal>
+                  <Name>Write failure</Name>
+                  <Value>1</Value>
+                </Literal>
+                <Literal>
+                  <Name>Transfer error</Name>
+                  <Value>2</Value>
+                </Literal>
+              </Enum>
+            </Case>
+          </Switch>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>WriteEncAlgSignedResponse</Name>
+        <Attribute>
+          <Name>Result</Name>
+          <Type>enum TAPResponseID</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Error</Name>
+          <Discriminator>Result</Discriminator>
+          <Switch>
+            <Name>WriteEncAlgSignedResponse - error</Name>
+            <Use>enum TAPResponseID</Use>
+            <Case>
+              <Value>0</Value>
+              <Type>none</Type>
+            </Case>
+            <Case>
+              <Value>1</Value>
+              <Enum>
+                <Name>Error Value</Name>
+                <ByteSize>1</ByteSize>
+                <Literal>
+                  <Name>Not Ready</Name>
+                  <Value>0</Value>
+                </Literal>
+                <Literal>
+                  <Name>Write failure</Name>
+                  <Value>1</Value>
+                </Literal>
+                <Literal>
+                  <Name>Transfer error</Name>
+                  <Value>2</Value>
+                </Literal>
+                <Literal>
+                  <Name>No available bank</Name>
+                  <Value>3</Value>
+                </Literal>
+              </Enum>
+            </Case>
+          </Switch>
+        </Attribute>
+      </Struct>
+
+
+      <Struct>
+        <Name>StatRequest</Name>
+        <Attribute>
+          <Name>Path Length</Name>
+          <Type>tWord</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Path</Name>
+          <Type>String</Type>
+          <ByteSize>Path Length</ByteSize>
+        </Attribute>
+      </Struct>
+      
+        
+      <Struct>
+        <Name>StatResponse</Name>
+        <Attribute>
+          <Name>Result</Name>
+          <Type>enum TAPResponseID</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Type</Name>
+          <Type>enum DirectoryEntryType</Type>
+        </Attribute>
+        <Attribute>
+          <Name>FileLength</Name>
+          <Type>tLong</Type>
+        </Attribute>
+        <Attribute>
+          <Name>CRC</Name>
+          <Type>tLong</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Mode</Name>
+          <Type>tWord</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Mod Time</Name>
+          <Type>tLong</Type>
+        </Attribute>
+      </Struct>
+
+
+      <Enum>
+        <Name>DirectoryEntryType</Name>
+        <ByteSize>1</ByteSize>
+        <Literal>
+          <Name>File</Name>
+          <Value>1</Value>
+        </Literal>
+        <Literal>
+          <Name>Directory</Name>
+          <Value>2</Value>
+        </Literal>
+      </Enum>        
+                       
+        
+      <Struct>
+        <Name>ReadParameter</Name>
+        <Attribute>
+          <Name>ParamNum</Name>
+          <Type>tWord</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>PrepareKeyProgramming</Name>
+        <Attribute>
+          <Name>Command</Name>
+          <Type>enum PrepareKeyProgrammingCommand</Type>
+        </Attribute>
+      </Struct>
+
+
+      <Enum>
+        <Name>PrepareKeyProgrammingCommand</Name>
+        <ByteSize>1</ByteSize>
+        <Literal>
+          <Name>Start_SCK</Name>
+          <Value>0</Value>
+        </Literal>
+        <Literal>
+          <Name>Erase_SCK</Name>
+          <Value>1</Value>
+        </Literal>
+        <Literal>
+          <Name>Store_SCK</Name>
+          <Value>2</Value>
+        </Literal>
+        <Literal>
+          <Name>Start_E2EE</Name>
+          <Value>3</Value>
+        </Literal>
+        <Literal>
+          <Name>Erase_E2EE</Name>
+          <Value>4</Value>
+        </Literal>
+        <Literal>
+          <Name>Erase_E2EE_KV</Name>
+          <Value>5</Value>
+        </Literal>
+        <Literal>
+          <Name>Erase_E2EE_CGA</Name>
+          <Value>6</Value>
+        </Literal>
+        <Literal>
+          <Name>Store_E2EE</Name>
+          <Value>7</Value>
+        </Literal>
+        <Literal>
+          <Name>Start_GCK</Name>
+          <Value>8</Value>
+        </Literal>
+        <Literal>
+          <Name>Erase_GCK</Name>
+          <Value>9</Value>
+        </Literal>
+        <Literal>
+          <Name>Store_GCK</Name>
+          <Value>10</Value>
+        </Literal>
+        <Literal>
+          <Name>Start_GSKO</Name>
+          <Value>11</Value>
+        </Literal>
+        <Literal>
+          <Name>Erase_GSKO</Name>
+          <Value>12</Value>
+        </Literal>
+        <Literal>
+          <Name>Store_GSKO</Name>
+          <Value>13</Value>
+        </Literal>
+
+      </Enum>
+
+
+      <Struct>
+        <Name>ReadParameterResponse</Name>
+        <Attribute>
+          <Name>Result</Name>
+          <Type>enum TAPResponseID</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>SetProgrammingSessionProgress</Name>
+        <Attribute>
+          <Name>State</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Current</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Next</Name>
+          <Type>tByte</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>WritePublicKey</Name>
+        <Attribute>
+          <Name>Key ID</Name>
+          <Type>enum PublicKeyType</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Length</Name>
+          <Type>tWord</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Key Type</Name>
+          <Type>tByte</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>WriteEncAlgSignedRequest</Name>
+        <Attribute>
+          <Name>ALG ID</Name>
+          <Type>tLong</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>ReadFileRequest</Name>
+        <Attribute>
+          <Name>Length</Name>
+          <Type>tWord</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Path</Name>
+          <Type>String</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>ReadDirectoryRequest</Name>
+        <Attribute>
+          <Name>Length</Name>
+          <Type>tWord</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Path</Name>
+          <Type>String</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>AudioAlertToneRequest</Name>
+        <Attribute>
+          <Name>OutputPath</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>ToneDuration</Name>
+          <Type>tByte</Type>
+        </Attribute>
+        <Attribute>
+          <Name>ToneFrequency</Name>
+          <Type>tByte</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>SetVolumeLevelRequest</Name>
+        <Attribute>
+          <Name>Volume Level</Name>
+          <Type>tByte</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>SetGen3TxPowerLevel</Name>
+        <Attribute>
+          <Name>Power level</Name>
+          <Type>enum PowerLevel</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>SetTxCalibrationFrequency</Name>
+        <Attribute>
+          <Name>Tx Cal freq table index</Name>
+          <Type>tByte</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>SetProductVariantCode</Name>
+        <Attribute>
+          <Name>PVC Field</Name>
+          <Type>enum PvcFieldType</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>TestBluetoothModule</Name>
+        <Attribute>
+          <Name>Test Function</Name>
+          <Type>enum BluetoothModuleTestFunction</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>WriteLicenceFileRequest</Name>
+        <Attribute>
+          <Name>Num Blocks</Name>
+          <Type>tWord</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Type</Name>
+          <Type>enum LicenceFileType</Type>
+        </Attribute>
+        <Attribute>
+          <Name>File Size Bytes</Name>
+          <Type>tWord</Type>
+        </Attribute>
+        <Attribute>
+          <Name>File CRC</Name>
+          <Type>tLong</Type>
+        </Attribute>
+      </Struct>
+
+
+      <Struct>
+        <Name>ReadLicenceFileRequest</Name>
+        <Attribute>
+          <Name>Type</Name>
+          <Type>enum LicenceFileType</Type>
+        </Attribute>
+      </Struct>
+
+      <Struct>
+        <Name>WriteParameterSignedRequest_0</Name>
+        <Attribute>
+          <Name>Number Blocks</Name>
+          <Type>tWord</Type>
+        </Attribute>
+      </Struct>
+      
+      <Struct>
+        <Name>WriteParameterSignedRequest_1</Name>
+        <Attribute>
+          <Name>Signed Param Size</Name>
+          <Type>tWord</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Param Num</Name>
+          <Type>tWord</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Param Size</Name>
+          <Type>tWord</Type>
+        </Attribute>
+      </Struct>
+      
+      <Struct>
+        <Name>WriteFileCommand</Name>
+        <Attribute>
+          <Name>Num Blocks</Name>
+          <Type>tWord</Type>
+        </Attribute>
+        <Attribute>
+          <Name>FileLength</Name>
+          <Type>tLong</Type>
+        </Attribute>
+        <Attribute>
+          <Name>FileCRC32</Name>
+          <Type>tLong</Type>
+        </Attribute>
+        <Attribute>
+          <Name>File Mode</Name>
+          <Type>tWord</Type>
+        </Attribute>
+        <Attribute>
+          <Name>Path Length</Name>
+          <Type>tWord</Type>
+        </Attribute>
+      </Struct>
+
+      <!-- TAPCommandID -->
+      <Enum>
+        <Name>TAPCommandID</Name>
+        <ByteSize>1</ByteSize>
+        <Literal>
+          <Name>Response</Name>
+          <Value>0</Value>
+        </Literal>
+        <Literal>
+          <Name>Read Alignment Parameters</Name>
+          <Value>1</Value>
+        </Literal>
+        <Literal>
+          <Name>Set Rx Tuning Voltage</Name>
+          <Value>5</Value>
+        </Literal>
+        <Literal>
+          <Name>Set TCXO Frequency</Name>
+          <Value>9</Value>
+        </Literal>
+        <Literal>
+          <Name>Set Gen3 Tx Baseband Drive</Name>
+          <Value>10</Value>
+        </Literal>
+        <Literal>
+          <Name>Set Gen3 Tx I/Q RRC Filter Block Coeff</Name>
+          <Value>12</Value>
+        </Literal>
+        <Literal>
+          <Name>Calibrate TETRA Tx Power</Name>
+          <Value>21</Value>
+        </Literal>
+        <Literal>
+          <Name>Set Gen3 Tx Power Level</Name>
+          <Value>26</Value>
+        </Literal>
+        <Literal>
+          <Name>Save Alignment Data</Name>
+          <Value>33</Value>
+        </Literal>
+        <Literal>
+          <Name>Set Tx Calibration Frequency Table</Name>
+          <Value>34</Value>
+        </Literal>
+        <Literal>
+          <Name>Set Rx Calibration Frequency Table</Name>
+          <Value>35</Value>
+        </Literal>
+        <Literal>
+          <Name>Set Tx Calibration Frequency</Name>
+          <Value>36</Value>
+        </Literal>
+        <Literal>
+          <Name>Select Transmitter Band</Name>
+          <Value>40</Value>
+        </Literal>
+        <Literal>
+          <Name>Read RX Mean Magnitude</Name>
+          <Value>45</Value>
+        </Literal>
+        <Literal>
+          <Name>Read Alignment Language ID</Name>
+          <Value>49</Value>
+        </Literal>
+        <Literal>
+          <Name>Read ALGIDs</Name>
+          <Value>52</Value>
+        </Literal>
+        <Literal>
+          <Name>Set Feature Licences Not Required</Name>
+          <Value>55</Value>
+        </Literal>
+        <Literal>
+          <Name>Set RF ABC Coefficients</Name>
+          <Value>61</Value>
+        </Literal>
+        <Literal>
+          <Name>Set Product Variant Code</Name>
+          <Value>62</Value>
+        </Literal>
+        <Literal>
+          <Name>Test Bluetooth Module</Name>
+          <Value>82</Value>
+        </Literal>
+        <Literal>
+          <Name>Read Connected Items</Name>
+          <Value>98</Value>
+        </Literal>
+        <Literal>
+          <Name>Reboot</Name>
+          <Value>101</Value>
+        </Literal>
+        <Literal>
+          <Name>Read ADC</Name>
+          <Value>102</Value>
+        </Literal>
+        <Literal>
+          <Name>Set Volume Level</Name>
+          <Value>105</Value>
+        </Literal>
+        <Literal>
+          <Name>Enable Tx</Name>
+          <Value>107</Value>
+        </Literal>
+        <Literal>
+          <Name>Disable Tx</Name>
+          <Value>108</Value>
+        </Literal>
+        <Literal>
+          <Name>Set Tx Test Modulation</Name>
+          <Value>112</Value>
+        </Literal>
+        <Literal>
+          <Name>Enable Functional Block</Name>
+          <Value>113</Value>
+        </Literal>
+        <Literal>
+          <Name>Enter Engineering Mode</Name>
+          <Value>117</Value>
+        </Literal>
+        <Literal>
+          <Name>Set Baseband Audio Loop</Name>
+          <Value>121</Value>
+        </Literal>
+        <Literal>
+          <Name>Read Operating Mode</Name>
+          <Value>125</Value>
+        </Literal>
+        <Literal>
+          <Name>Read Tamper Switch State</Name>
+          <Value>128</Value>
+        </Literal>
+        <Literal>
+          <Name>Test Encryption Device</Name>
+          <Value>140</Value>
+        </Literal>
+        <Literal>
+          <Name>Read Parameter Index</Name>
+          <Value>151</Value>
+        </Literal>
+        <Literal>
+          <Name>Prepare for Flash Download</Name>
+          <Value>152</Value>
+        </Literal>
+        <Literal>
+          <Name>Write Customisation Data</Name>
+          <Value>154</Value>
+        </Literal>
+        <Literal>
+          <Name>Read Customisation Data</Name>
+          <Value>155</Value>
+        </Literal>
+        <Literal>
+          <Name>Write Parameter</Name>
+          <Value>156</Value>
+        </Literal>
+        <Literal>
+          <Name>Read Parameter</Name>
+          <Value>157</Value>
+        </Literal>
+        <Literal>
+          <Name>Prepare for Key Programming</Name>
+          <Value>163</Value>
+        </Literal>
+        <Literal>
+          <Name>Write Language Block</Name>
+          <Value>166</Value>
+        </Literal>
+        <Literal>
+          <Name>Read Language Block Language ID</Name>
+          <Value>168</Value>
+        </Literal>
+        <Literal>
+          <Name>Check Space for Main Code</Name>
+          <Value>169</Value>
+        </Literal>
+        <Literal>
+          <Name>Deliver KMM</Name>
+          <Value>173</Value>
+        </Literal>
+        <Literal>
+          <Name>Read Public Key ID</Name>
+          <Value>176</Value>
+        </Literal>
+        <Literal>
+          <Name>Write Control Software Extended</Name>
+          <Value>177</Value>
+        </Literal>
+        <Literal>
+          <Name>Write Public Key</Name>
+          <Value>178</Value>
+        </Literal>
+        <Literal>
+          <Name>Write Enc Alg Signed</Name>
+          <Value>185</Value>
+        </Literal>
+        <Literal>
+          <Name>Link Endpoint Authentication</Name>
+          <Value>186</Value>
+        </Literal>
+        <Literal>
+          <Name>Read Embedded Device Identity Information</Name>
+          <Value>187</Value>
+        </Literal>
+        <Literal>
+          <Name>Write Licence File</Name>
+          <Value>189</Value>
+        </Literal>
+        <Literal>
+          <Name>Read Licence File</Name>
+          <Value>190</Value>
+        </Literal>
+        <Literal>
+          <Name>Read Licence File Status</Name>
+          <Value>191</Value>
+        </Literal>
+        <Literal>
+          <Name>Write Parameter Signed</Name>
+          <Value>194</Value>
+        </Literal>
+        <Literal>
+          <Name>Set Programming Session Progress</Name>
+          <Value>195</Value>
+        </Literal>
+        <Literal>
+          <Name>Read Post Mortem</Name>
+          <Value>201</Value>
+        </Literal>
+        <Literal>
+          <Name>Switch Serial Protocol to Hayes</Name>
+          <Value>211</Value>
+        </Literal>
+        <Literal>
+          <Name>Write File</Name>
+          <Value>215</Value>
+        </Literal>
+        <Literal>
+          <Name>Read File</Name>
+          <Value>216</Value>
+        </Literal>
+        <Literal>
+          <Name>Read Directory</Name>
+          <Value>219</Value>
+        </Literal>
+        <Literal>
+          <Name>Stat</Name>
+          <Value>220</Value>
+        </Literal>
+        <Literal>
+          <Name>Format Filesystem</Name>
+          <Value>223</Value>
+        </Literal>
+        <Literal>
+          <Name>GPS Raw Data Mode</Name>
+          <Value>235</Value>
+        </Literal>
+        <Literal>
+          <Name>GPS Raw Data In</Name>
+          <Value>236</Value>
+        </Literal>
+        <Literal>
+          <Name>GPS Raw Data Out</Name>
+          <Value>237</Value>
+        </Literal>
+        <Literal>
+          <Name>Audio Alert Tone</Name>
+          <Value>238</Value>
+        </Literal>
+        <Literal>
+          <Name>WiFi Scan Access Point</Name>
+          <Value>239</Value>
+        </Literal>
+      </Enum>
+
+      <!-- TAPResponseID -->
+      <Enum>
+        <Name>TAPResponseID</Name>
+        <ByteSize>1</ByteSize>
+        <Literal>
+          <Name>OK</Name>
+          <Value>0</Value>
+        </Literal>
+        <Literal>
+          <Name>ERROR: Unspecified failure</Name>
+          <Value>1</Value>
+        </Literal>
+        <Literal>
+          <Name>ERROR: Busy</Name>
+          <Value>2</Value>
+        </Literal>
+        <Literal>
+          <Name>ERROR: Unknown request sub-type</Name>
+          <Value>3</Value>
+        </Literal>
+        <Literal>
+          <Name>ERROR: Request not acceptable in current mode</Name>
+          <Value>4</Value>
+        </Literal>
+        <Literal>
+          <Name>ERROR: Software incomplete</Name>
+          <Value>5</Value>
+        </Literal>
+        <Literal>
+          <Name>ERROR: Request requires authentication</Name>
+          <Value>6</Value>
+        </Literal>
+        <Literal>
+          <Name>ERROR: Internal Timeout</Name>
+          <Value>7</Value>
+        </Literal>
+        <Literal>
+          <Name>ERROR: Link lost</Name>
+          <Value>15</Value>
+        </Literal>
+      </Enum>
+
+      <!-- OperatingMode -->
+      <Enum>
+        <Name>OperatingMode</Name>
+        <ByteSize>1</ByteSize>
+        <Literal>
+          <Name>Normal Mode</Name>
+          <Value>0</Value>
+        </Literal>
+        <Literal>
+          <Name>Engineering Mode</Name>
+          <Value>1</Value>
+        </Literal>
+        <Literal>
+          <Name>Code Download Mode</Name>
+          <Value>2</Value>
+        </Literal>
+        <Literal>
+          <Name>Data Download Mode</Name>
+          <Value>3</Value>
+        </Literal>
+        <Literal>
+          <Name>T1 Test Mode</Name>
+          <Value>4</Value>
+        </Literal>
+        <Literal>
+          <Name>Disabled Mode</Name>
+          <Value>5</Value>
+        </Literal>
+        <Literal>
+          <Name>T4 Test Mode</Name>
+          <Value>6</Value>
+        </Literal>
+      </Enum>
+
+      <Enum>
+        <Name>PowerLevel</Name>
+        <ByteSize>1</ByteSize>
+        <Literal>
+          <Name>7 / 15 dBm</Name>
+          <Value>0</Value>
+        </Literal>
+        <Literal>
+          <Name>6 / 20 dBm</Name>
+          <Value>1</Value>
+        </Literal>
+        <Literal>
+          <Name>5 / 25 dBm</Name>
+          <Value>2</Value>
+        </Literal>
+        <Literal>
+          <Name>4L / 27.5 dBm</Name>
+          <Value>8</Value>
+        </Literal>
+        <Literal>
+          <Name>4 / 30 dBm</Name>
+          <Value>9</Value>
+        </Literal>
+        <Literal>
+          <Name>3L / 32.5 dBm</Name>
+          <Value>10</Value>
+        </Literal>
+        <Literal>
+          <Name>3 / 35 dBm</Name>
+          <Value>11</Value>
+        </Literal>
+        <Literal>
+          <Name>2 / 40 dBm</Name>
+          <Value>12</Value>
+        </Literal>
+        <Literal>
+          <Name>1 / 45 dBm</Name>
+          <Value>13</Value>
+        </Literal>
+      </Enum>
+
+      <Enum>
+        <Name>EncryptionDeviceType</Name>
+        <ByteSize>1</ByteSize>
+        <Literal>
+          <Name>Not detected</Name>
+          <Value>0</Value>
+        </Literal>
+        <Literal>
+          <Name>1st Generation ASIC</Name>
+          <Value>1</Value>
+        </Literal>
+        <Literal>
+          <Name>DRP2E</Name>
+          <Value>2</Value>
+        </Literal>
+        <Literal>
+          <Name>DRP2x</Name>
+          <Value>3</Value>
+        </Literal>
+        <Literal>
+          <Name>DRP3L</Name>
+          <Value>4</Value>
+        </Literal>
+      </Enum>
+
+      <Enum>
+        <Name>KeystreamValidationResult</Name>
+        <ByteSize>1</ByteSize>
+        <Literal>
+          <Name>Success</Name>
+          <Value>0</Value>
+        </Literal>
+        <Literal>
+          <Name>Simple test failure</Name>
+          <Value>1</Value>
+        </Literal>
+        <Literal>
+          <Name>Thorough test failure</Name>
+          <Value>2</Value>
+        </Literal>
+        <Literal>
+          <Name>No keystream interrupt</Name>
+          <Value>3</Value>
+        </Literal>
+      </Enum>
+
+      <Enum>
+        <Name>AlgorithmType</Name>
+        <ByteSize>1</ByteSize>
+        <Literal>
+          <Value>0</Value>
+          <Name>Not identified</Name>
+        </Literal>
+        <Literal>
+          <Value>1</Value>
+          <Name>TEA1</Name>
+        </Literal>
+        <Literal>
+          <Value>2</Value>
+          <Name>TEA2</Name>
+        </Literal>
+        <Literal>
+          <Value>3</Value>
+          <Name>TEA3</Name>
+        </Literal>
+        <Literal>
+          <Value>4</Value>
+          <Name>TEA4</Name>
+        </Literal>
+        <Literal>
+          <Value>8</Value>
+          <Name>TEA-S</Name>
+        </Literal>
+      </Enum>
+
+      <Enum>
+        <Name>LicenceFileType</Name>
+        <ByteSize>1</ByteSize>
+        <Literal>
+          <Name>Feature</Name>
+          <Value>0</Value>
+        </Literal>
+        <Literal>
+          <Name>Delta</Name>
+          <Value>1</Value>
+        </Literal>
+        <Literal>
+          <Name>Security</Name>
+          <Value>2</Value>
+        </Literal>
+      </Enum>
+
+      <Enum>
+        <Name>PublicKeyType</Name>
+        <ByteSize>1</ByteSize>
+        <Literal>
+          <Name>Unused</Name>
+          <Value>0</Value>
+        </Literal>
+        <Literal>
+          <Name>SPP</Name>
+          <Value>1</Value>
+        </Literal>
+        <Literal>
+          <Name>Licence</Name>
+          <Value>2</Value>
+        </Literal>
+      </Enum>
+
+      <Enum>
+        <Name>PvcFieldType</Name>
+        <ByteSize>1</ByteSize>
+        <Literal>
+          <Name>Factory Build Field</Name>
+          <Value>0</Value>
+        </Literal>
+        <Literal>
+          <Name>Factory Build Version Field</Name>
+          <Value>1</Value>
+        </Literal>
+        <Literal>
+          <Name>Customisation Variant Field</Name>
+          <Value>2</Value>
+        </Literal>
+      </Enum>
+
+      <Enum>
+        <Name>BluetoothModuleTestFunction</Name>
+        <ByteSize>1</ByteSize>
+        <Literal>
+          <Name>1: Test connection to BT module</Name>
+          <Value>0</Value>
+        </Literal>
+        <Literal>
+          <Name>2: Read BT module address</Name>
+          <Value>1</Value>
+        </Literal>
+        <Literal>
+          <Name>3: Read Frequency Calibration Data</Name>
+          <Value>2</Value>
+        </Literal>
+        <Literal>
+          <Name>4: Read BT Module Software Version GEN2</Name>
+          <Value>3</Value>
+        </Literal>
+        <Literal>
+          <Name>5: Enable Bluetooth Test mode</Name>
+          <Value>4</Value>
+        </Literal>
+        <Literal>
+          <Name>6: Read BT Module Software Version GEN3</Name>
+          <Value>5</Value>
+        </Literal>
+        <Literal>
+          <Name>7: Enable BT Module PCM Loopback</Name>
+          <Value>6</Value>
+        </Literal>
+      </Enum>
+
+      <!-- Map27FrameType -->
+      <Enum>
+        <Name>Map27FrameType</Name>
+        <ByteSize>1</ByteSize>
+        <Literal>
+          <Name>LR</Name>
+          <Value>1</Value>
+        </Literal>
+        <Literal>
+          <Name>LA</Name>
+          <Value>2</Value>
+        </Literal>
+        <Literal>
+          <Name>LT</Name>
+          <Value>4</Value>
+        </Literal>
+      </Enum>
+
+    </Types>
+
+
+    <Decoding>
+    </Decoding>
+  </Contents>
+</DataDictionary>
